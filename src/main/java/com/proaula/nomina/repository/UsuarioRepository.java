@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-    @EntityGraph(attributePaths = {"rol", "empresa"})
+    @EntityGraph(attributePaths = {"rol"})
     Optional<Usuario> findByEmailIgnoreCase(String email);
 }
