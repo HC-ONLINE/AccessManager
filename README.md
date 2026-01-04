@@ -165,7 +165,7 @@ mvn spring-boot:run
 **Requisitos:**
 
 - Java 21
-- MySQL 8.0+
+- Base de datos relacional (MySQL 8.0+ como ejemplo)
 - Maven 3.6+
 
 **Configuración:**
@@ -173,7 +173,11 @@ mvn spring-boot:run
 - Copiar `.env.example` a `.env` y configurar:
   - `JWT_SECRET`: Clave secreta para firmar tokens (mínimo 256 bits)
   - `JWT_EXPIRATION`: Tiempo de expiración en milisegundos (default: 24h)
-  - Credenciales de base de datos MySQL
+  - Credenciales de base de datos
+
+**Nota sobre persistencia:**
+
+La persistencia es intercambiable. MySQL se utiliza como ejemplo, pero el diseño usa Spring Data JPA y no depende de características específicas del motor. Puede usar H2, PostgreSQL, MariaDB u otra base de datos relacional compatible modificando `application.properties`.
 
 ---
 
