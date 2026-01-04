@@ -52,7 +52,7 @@ El estado de autenticación se almacena **en el cliente** como un token firmado 
 
 - Stateless: cada request es independiente
 - Rendimiento: sin necesidad de consultar sesiones en cada petición
-- Facilita arquitecturas de microservicios
+- Es compatible con arquitecturas distribuidas donde no se comparte estado de sesión.
 
 **Qué se pierde:**
 
@@ -129,7 +129,6 @@ Respuesta
 | Método | Endpoint           | Autenticación | Rol  |
 |--------|--------------------|---------------|------|
 | POST   | /api/auth/login    | No            | -    |
-| GET    | /api/auth/test     | No            | -    |
 | GET    | /api/*             | Sí (JWT)      | USER |
 
 **Ejemplo de petición autenticada:**
