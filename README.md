@@ -180,7 +180,7 @@ mvn spring-boot:run
 **Requisitos:**
 
 - Java 21
-- MySQL 8.0+
+- Base de datos relacional (MySQL 8.0+ como ejemplo)
 - Maven 3.6+
 
 **Configuración:**
@@ -189,10 +189,14 @@ mvn spring-boot:run
 - Las sesiones se almacenan en memoria por defecto
 - Para producción, considerar almacenamiento distribuido (Redis, JDBC)
 
+**Nota sobre persistencia:**
+
+La persistencia es intercambiable. MySQL se utiliza como ejemplo, pero el diseño usa Spring Data JPA y no depende de características específicas del motor. Puede usar H2, PostgreSQL, MariaDB u otra base de datos relacional compatible modificando `application.properties`.
+
 **Acceso:**
 
-- Aplicación: http://localhost:8080
-- Login: http://localhost:8080/auth/login
+- Aplicación: [http://localhost:8080](http://localhost:8080)
+- Login: [http://localhost:8080/auth/login](http://localhost:8080/auth/login)
 
 ---
 
