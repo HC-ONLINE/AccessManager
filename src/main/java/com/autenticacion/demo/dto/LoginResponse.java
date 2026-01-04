@@ -1,4 +1,4 @@
-package com.parcialtres.demo.dto;
+package com.autenticacion.demo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

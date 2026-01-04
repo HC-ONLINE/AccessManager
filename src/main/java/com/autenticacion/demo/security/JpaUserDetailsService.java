@@ -1,12 +1,13 @@
-package com.parcialtres.demo.security;
+package com.autenticacion.demo.security;
 
-import com.parcialtres.demo.entity.Usuario;
-import com.parcialtres.demo.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import com.autenticacion.demo.entity.Usuario;
+import com.autenticacion.demo.repository.UsuarioRepository;
 
 @Service
 @RequiredArgsConstructor

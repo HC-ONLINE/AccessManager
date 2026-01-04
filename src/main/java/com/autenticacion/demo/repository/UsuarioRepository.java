@@ -1,8 +1,9 @@
-package com.parcialtres.demo.repository;
+package com.autenticacion.demo.repository;
 
-import com.parcialtres.demo.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.autenticacion.demo.entity.Usuario;
 
 import java.util.Optional;
 

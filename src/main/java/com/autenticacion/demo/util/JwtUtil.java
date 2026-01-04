@@ -1,4 +1,4 @@
-package com.parcialtres.demo.util;
+package com.autenticacion.demo.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

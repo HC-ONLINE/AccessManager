@@ -1,9 +1,5 @@
-package com.parcialtres.demo.controller;
+package com.autenticacion.demo.controller;
 
-import com.parcialtres.demo.dto.LoginRequest;
-import com.parcialtres.demo.dto.LoginResponse;
-import com.parcialtres.demo.security.CustomUserDetails;
-import com.parcialtres.demo.util.JwtUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +9,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import com.autenticacion.demo.dto.LoginRequest;
+import com.autenticacion.demo.dto.LoginResponse;
+import com.autenticacion.demo.security.CustomUserDetails;
+import com.autenticacion.demo.util.JwtUtil;
 
 @RestController
 @RequestMapping("/api/auth")
