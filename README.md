@@ -1,11 +1,11 @@
-# Sistema de Autenticacion y autorizacion con JWT y sin jwt
+# Sistema de Autenticación y Autorización
 
-Este proyecto es un sistema de autenticación y autorización que utiliza JSON Web Tokens (JWT) para gestionar el acceso de los usuarios a diferentes recursos. Además, incluye una implementación alternativa sin JWT para comparar ambos enfoques.
+Este proyecto es un sistema de autenticación y autorización que ofrece dos implementaciones diferentes para gestionar el acceso de los usuarios: una basada en JSON Web Tokens (JWT) y otra basada en sesiones.
 
 ## Ramas
 
-- `autenticacion-base`: Contiene la versión con JWT.
-- `autenticacion-base-sin-jwt`: Contiene la versión sin JWT.
+- `auth-jwt`: Autenticación basada en tokens JWT.
+- `auth-session`: Autenticación basada en sesiones.
 
 ## Tecnologías Principales Utilizadas
 
