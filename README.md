@@ -42,6 +42,8 @@ El estado de autenticación se almacena **en el cliente** como un token firmado 
 
 ## Decisiones de diseño
 
+> **Nota importante**: Esta implementación está pensada como una **API HTTP stateless** y no como una aplicación web basada en navegador. Por eso no usa cookies, no requiere protección CSRF, y no implementa form login tradicional.
+
 **Qué habilita técnicamente JWT:**
 
 - **Stateless en Spring Security**: Configuración `SessionCreationPolicy.STATELESS` elimina la necesidad de HttpSession
