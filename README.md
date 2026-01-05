@@ -42,34 +42,27 @@ El estado de autenticación se almacena **en el servidor** y se identifica media
 
 ## Decisiones de diseño
 
-**Por qué se eligió este enfoque:**
+**Qué habilita técnicamente la sesión:**
 
-- **Control total sobre sesiones**: se pueden invalidar, renovar o consultar en cualquier momento
-- **Simplicidad conceptual**: modelo tradicional bien entendido y documentado
-- **Gestión de estado**: el servidor tiene visibilidad completa de las sesiones activas
-- **Revocación inmediata**: un logout invalida la sesión en el servidor instantáneamente
+- **HttpSession de Spring Security**: `SecurityContextPersistenceFilter` guarda el `Authentication` en la sesión HTTP
+- **Cookie JSESSIONID**: Se envía automáticamente por el navegador en cada petición
+- **Estado en servidor**: La sesión (con datos del usuario autenticado) se almacena en memoria o en un store externo
+- **Form Login**: `UsernamePasswordAuthenticationFilter` procesa el formulario y crea la sesión automáticamente
 
-**Qué se gana:**
+**Qué problemas resuelve en Spring Security:**
 
-- Revocación instantánea de acceso (logout real, cambio de permisos)
-- Auditoría detallada: se puede consultar quién está conectado y desde cuándo
-- Menos procesamiento por request: no hay validación criptográfica de tokens
-- Menor superficie de ataque en el cliente: solo un ID de sesión opaco
+- **Revocación inmediata**: `session.invalidate()` elimina la sesión instantáneamente, impidiendo acceso futuro
+- **Auditoría**: Se puede consultar quién está conectado, desde cuándo y desde qué IP usando `SessionRegistry`
+- **Protección CSRF**: Spring Security habilita automáticamente protección CSRF con tokens sincronizados
+- **Gestión centralizada**: El servidor controla cuántas sesiones tiene un usuario, timeout, renovación, etc.
 
-**Qué se pierde:**
+**Trade-offs técnicos:**
 
-- Escalabilidad horizontal sin estado compartido: requiere sticky sessions o store distribuido
-- Mayor complejidad en despliegues distribuidos (Redis, bases de datos para sesiones)
-- Acoplamiento al servidor: la sesión vive solo en el backend que la creó
-- Menor interoperabilidad entre servicios distintos
+- **Escalabilidad**: Requiere sticky sessions (afinidad de sesión) o store compartido (Redis/JDBC) para escalar
+- **Memoria**: Cada usuario autenticado consume memoria en el servidor (vs JWT donde el cliente almacena el estado)
+- **Acoplamiento**: La sesión vive en el servidor que la creó (o en el store compartido), dificultando arquitecturas distribuidas
 
-**Qué casos NO cubre bien:**
-
-- Arquitecturas de microservicios distribuidos sin estado compartido
-- APIs públicas consumidas por clientes no web (mobile apps, servicios externos)
-- Escalado horizontal sin infraestructura de sesiones compartidas
-
-> Esta implementación prioriza control y revocación inmediata sobre escalabilidad stateless.
+> Esta implementación prioriza control inmediato sobre las sesiones y auditoría completa.
 
 ---
 
@@ -218,20 +211,56 @@ Estas limitaciones son intencionales para mantener la implementación simple y e
 
 ---
 
-## Conclusiones
+## Aspectos técnicos clave
 
-**Este enfoque es adecuado cuando:**
+**Cómo funciona la revocación inmediata:**
 
-- La aplicación es monolítica o tiene pocos servidores con sticky sessions
-- Se requiere control estricto y revocación inmediata de acceso
-- Los clientes son navegadores web (no APIs públicas o mobile apps)
-- Se necesita auditoría completa de sesiones activas
-- La infraestructura soporta almacenamiento de sesiones compartido (Redis, base de datos)
+```java
+// En el logout
+session.invalidate(); // Elimina la sesión del servidor
+```
 
-**No es recomendable cuando:**
+Cuando se invalida la sesión:
 
-- Se necesita escalar horizontalmente sin estado compartido
-- La arquitectura es de microservicios distribuidos
-- Los clientes son aplicaciones móviles nativas o servicios externos
-- Se requiere interoperabilidad entre múltiples servicios independientes
-- El tráfico es altamente variable y requiere escalado dinámico
+1. Se elimina el objeto `HttpSession` del servidor o store
+2. La cookie `JSESSIONID` se marca para eliminación en el cliente
+3. Próximas peticiones con ese ID de sesión son rechazadas automáticamente
+
+Esto permite **revocar acceso instantáneamente**, algo imposible con JWT sin infraestructura adicional.
+
+**Por qué CSRF es crítico aquí:**
+
+Las cookies `JSESSIONID` se envían **automáticamente** por el navegador en cada petición, incluso desde otros sitios.
+
+Spring Security habilita protección CSRF por defecto:
+
+- Genera un token CSRF único por sesión
+- Lo envía embebido en formularios (input hidden)
+- Valida que el token en el request coincida con el de la sesión
+
+Sin CSRF, un atacante podría:
+
+```html
+<!-- Sitio malicioso -->
+<form action="https://app.com/logout" method="POST">
+  <input type="submit" value="Ver video gratis">
+</form>
+```
+
+El navegador enviaría automáticamente la cookie de sesión válida.
+
+**Escalabilidad con sesiones:**
+
+Para escalar horizontalmente con sesiones:
+
+1. **Sticky Sessions** (afinidad de sesión):
+   - El balanceador enruta siempre al mismo servidor
+   - Simple pero no tolera caídas del servidor
+
+2. **Store compartido** (Redis, JDBC):
+   - Las sesiones se guardan en Redis o base de datos
+   - Cualquier servidor puede leer cualquier sesión
+   - Añade latencia y dependencia externa
+
+3. **JWT** (rama `auth-jwt`):
+   - Elimina el problema al no tener sesiones del lado servidor
