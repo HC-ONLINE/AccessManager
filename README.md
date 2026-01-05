@@ -142,17 +142,21 @@ curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9..." \
 
 ## Tests
 
-**Estado actual:**
+Tests de seguridad implementados con Spring Boot Test y MockMvc:
 
-- No se han implementado tests automatizados
-- Se requiere testing manual con herramientas como Postman o curl
-
-**Casos a cubrir:**
-
-- Login con credenciales válidas → devuelve token
+- Login válido → devuelve token JWT con estructura correcta
 - Acceso sin token → 401 Unauthorized
-- Acceso con token expirado → 401 Unauthorized
-- Acceso con token manipulado → 401 Unauthorized
+- Acceso con token inválido/manipulado → 401 Unauthorized
+- Acceso con token malformado → 401 Unauthorized
+- Acceso con rol insuficiente → 403 Forbidden
+
+Los tests validan la configuración de Spring Security, la generación de tokens JWT y los flujos de autorización basados en roles.
+
+**Ejecución:**
+
+```bash
+mvn test
+```
 
 ---
 
