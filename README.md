@@ -42,31 +42,26 @@ El estado de autenticación se almacena **en el cliente** como un token firmado 
 
 ## Decisiones de diseño
 
-**Por qué se eligió este enfoque:**
+**Qué habilita técnicamente JWT:**
 
-- **Escalabilidad horizontal**: No requiere sincronización de sesiones entre servidores
-- **Simplicidad de despliegue**: No hay dependencia de un store de sesiones compartido
-- **Interoperabilidad**: El token puede usarse en diferentes servicios/dominios
+- **Stateless en Spring Security**: Configuración `SessionCreationPolicy.STATELESS` elimina la necesidad de HttpSession
+- **Verificación criptográfica**: Cada token se valida con firma HMAC-SHA256 sin consultar base de datos
+- **Claims embebidos**: Email, rol y expiración viajan en el token, evitando lookups adicionales
+- **Filtro personalizado**: `JwtRequestFilter` ejecuta antes de `UsernamePasswordAuthenticationFilter` para extraer y validar el token
 
-**Qué se gana:**
+**Qué problemas resuelve en Spring Security:**
 
-- Stateless: cada request es independiente
-- Rendimiento: sin necesidad de consultar sesiones en cada petición
-- Es compatible con arquitecturas distribuidas donde no se comparte estado de sesión.
+- **Escalabilidad horizontal**: No hay sincronización de sesiones entre instancias (no requiere Redis/JDBC store)
+- **APIs REST puras**: Compatible con clientes que no mantienen cookies (mobile apps, SPAs en diferentes dominios)
+- **Carga reducida**: La validación de token no accede a base de datos en cada petición
 
-**Qué se pierde:**
+**Trade-offs técnicos:**
 
-- Control de revocación: no se puede invalidar un token antes de su expiración natural
-- Mayor tamaño de payload: el token viaja en cada petición
-- Complejidad en renovación: requiere implementar estrategias de refresh tokens
+- **Logout**: No se puede invalidar un token antes de su expiración. Solución típica: lista negra en Redis (no implementada)
+- **Payload**: El token completo (~200-500 bytes) viaja en cada request vs cookie de sesión (~20 bytes)
+- **Renovación**: Requiere lógica adicional de refresh tokens para sesiones largas (no implementada)
 
-**Qué casos NO cubre bien:**
-
-- Revocación inmediata de acceso (logout, cambio de permisos)
-- Gestión de sesiones de larga duración sin refresh tokens
-- Auditoría detallada de actividad por sesión
-
-> Esta implementación prioriza escalabilidad y simplicidad operacional sobre control granular de sesiones.
+> Esta implementación prioriza independencia entre requests y escalabilidad automática.
 
 ---
 
@@ -197,18 +192,23 @@ Estas limitaciones son intencionales para mantener la implementación simple y e
 
 ---
 
-## Conclusiones
+## Aspectos técnicos clave
 
-**Este enfoque es adecuado cuando:**
+**Cómo funciona el logout:**
 
-- Se necesita escalar horizontalmente sin complejidad de sincronización de sesiones
-- La arquitectura es distribuida (microservicios, APIs independientes)
-- El tiempo de vida de las sesiones es corto o se implementan refresh tokens
-- La revocación inmediata de acceso no es crítica
+En esta implementación, el logout es del lado del cliente: simplemente descarta el token. El token sigue siendo válido hasta su expiración.
 
-**No es recomendable cuando:**
+**Estrategias de revocación (no implementadas aquí):**
 
-- Se requiere control estricto de sesiones activas con capacidad de revocación instantánea
-- La seguridad requiere auditoría detallada de cada sesión
-- Se necesita invalidar acceso inmediatamente por cambio de permisos o logout
-- La aplicación es monolítica y no hay planes de distribución
+- Lista negra de tokens en Redis con TTL
+- Versioning de tokens por usuario en base de datos
+- Reducir tiempo de expiración y usar refresh tokens
+
+**CSRF no es necesario:**
+
+Los tokens JWT en headers `Authorization` no son vulnerables a CSRF porque:
+
+- El navegador no envía headers personalizados automáticamente en requests cross-origin
+- No se usan cookies, por lo tanto no hay envío automático de credenciales
+
+Esto contrasta con la autenticación por sesión donde CSRF es crítico.
