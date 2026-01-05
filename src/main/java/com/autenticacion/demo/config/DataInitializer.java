@@ -26,6 +26,18 @@ public class DataInitializer {
                 usuarioRepository.save(admin);
                 System.out.println("Usuario admin creado: admin@example.com / password");
             }
+
+            // Crear Usuario USER si no existe
+            if (usuarioRepository.findByEmail("user@example.com").isEmpty()) {
+                Usuario user = new Usuario();
+                user.setUsername("user");
+                user.setEmail("user@example.com");
+                user.setPassword(passwordEncoder.encode("password"));
+                user.setRol("USER");
+                user.setActivo(true);
+                usuarioRepository.save(user);
+                System.out.println("Usuario user creado: user@example.com / password");
+            }
         };
     }
 }
