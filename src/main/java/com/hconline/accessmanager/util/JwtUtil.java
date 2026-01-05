@@ -1,4 +1,4 @@
-package com.autenticacion.demo.util;
+package com.hconline.accessmanager.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

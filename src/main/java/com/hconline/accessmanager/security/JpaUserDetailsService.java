@@ -1,4 +1,4 @@
-package com.autenticacion.demo.security;
+package com.hconline.accessmanager.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.autenticacion.demo.entity.Usuario;
-import com.autenticacion.demo.repository.UsuarioRepository;
+import com.hconline.accessmanager.entity.Usuario;
+import com.hconline.accessmanager.repository.UsuarioRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +19,7 @@ public class JpaUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con email: " + email));
-        
+
         return new CustomUserDetails(usuario);
     }
 }

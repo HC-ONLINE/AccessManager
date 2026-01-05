@@ -1,4 +1,4 @@
-package com.autenticacion.demo.controller;
+package com.hconline.accessmanager.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

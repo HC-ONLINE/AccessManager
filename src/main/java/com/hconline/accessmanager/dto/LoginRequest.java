@@ -1,4 +1,4 @@
-package com.autenticacion.demo.dto;
+package com.hconline.accessmanager.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

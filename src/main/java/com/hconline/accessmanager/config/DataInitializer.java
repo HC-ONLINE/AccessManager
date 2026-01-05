@@ -1,7 +1,7 @@
-package com.autenticacion.demo.config;
+package com.hconline.accessmanager.config;
 
-import com.autenticacion.demo.entity.Usuario;
-import com.autenticacion.demo.repository.UsuarioRepository;
+import com.hconline.accessmanager.entity.Usuario;
+import com.hconline.accessmanager.repository.UsuarioRepository;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

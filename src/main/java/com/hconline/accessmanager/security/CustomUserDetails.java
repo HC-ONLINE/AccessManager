@@ -1,11 +1,11 @@
-package com.autenticacion.demo.security;
+package com.hconline.accessmanager.security;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.autenticacion.demo.entity.Usuario;
+import com.hconline.accessmanager.entity.Usuario;
 
 import java.util.Collection;
 import java.util.Collections;

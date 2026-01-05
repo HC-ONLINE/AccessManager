@@ -1,4 +1,4 @@
-package com.autenticacion.demo.security;
+package com.hconline.accessmanager.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.autenticacion.demo.util.JwtUtil;
+import com.hconline.accessmanager.util.JwtUtil;
 
 import java.io.IOException;
 

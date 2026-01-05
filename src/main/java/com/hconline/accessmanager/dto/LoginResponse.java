@@ -1,4 +1,4 @@
-package com.autenticacion.demo.dto;
+package com.hconline.accessmanager.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

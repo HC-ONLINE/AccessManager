@@ -1,13 +1,13 @@
-package com.autenticacion.demo;
+package com.hconline.accessmanager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+public class AccessManagerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(AccessManagerApplication.class, args);
 	}
 
 }

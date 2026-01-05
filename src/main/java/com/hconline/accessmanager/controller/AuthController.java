@@ -1,4 +1,4 @@
-package com.autenticacion.demo.controller;
+package com.hconline.accessmanager.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,10 +10,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import com.autenticacion.demo.dto.LoginRequest;
-import com.autenticacion.demo.dto.LoginResponse;
-import com.autenticacion.demo.security.CustomUserDetails;
-import com.autenticacion.demo.util.JwtUtil;
+import com.hconline.accessmanager.dto.LoginRequest;
+import com.hconline.accessmanager.dto.LoginResponse;
+import com.hconline.accessmanager.security.CustomUserDetails;
+import com.hconline.accessmanager.util.JwtUtil;
 
 @RestController
 @RequestMapping("/api/auth")

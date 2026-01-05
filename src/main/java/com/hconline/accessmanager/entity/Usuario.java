@@ -1,4 +1,4 @@
-package com.autenticacion.demo.entity;
+package com.hconline.accessmanager.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
