@@ -39,27 +39,6 @@ Cada rama incluye su propio README con:
 
 ---
 
-## Flujo general de autenticación
-
-```text
-Cliente
-  |
-  | Solicitud de autenticación
-  v
-Spring Security Filter Chain
-  |
-  v
-Validación de credenciales
-  |
-  v
-JWT / Sesión creada
-  |
-  v
-Acceso a recursos protegidos
-```
-
----
-
 ## Comparación JWT vs Sesión
 
 | Aspecto            | JWT (auth-jwt)                         | Sesión (auth-session)                       |
