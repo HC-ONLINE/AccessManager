@@ -1,4 +1,4 @@
-package com.autenticacion.demo.config;
+package com.hconline.accessmanager.config;
 
 import java.util.regex.Pattern;
 import org.slf4j.Logger;
@@ -7,7 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.autenticacion.demo.repository.UsuarioRepository;
+import com.hconline.accessmanager.repository.UsuarioRepository;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 

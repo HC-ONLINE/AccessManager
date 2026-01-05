@@ -1,4 +1,4 @@
-package com.autenticacion.demo.security;
+package com.hconline.accessmanager.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.autenticacion.demo.repository.UsuarioRepository;
+import com.hconline.accessmanager.repository.UsuarioRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

@@ -1,4 +1,4 @@
-package com.autenticacion.demo.config;
+package com.hconline.accessmanager.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

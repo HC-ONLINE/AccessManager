@@ -1,4 +1,4 @@
-package com.autenticacion.demo.model;
+package com.hconline.accessmanager.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
