@@ -172,9 +172,25 @@ mvn test
 
 ## Ejecución
 
+Ejecución (local)
+
 ```bash
 mvn spring-boot:run
 ```
+
+Ejecución (Docker)
+
+- Levantar con Docker Compose desde la raíz del proyecto:
+
+```bash
+docker compose up --build -d
+```
+
+- Abrir la aplicación en el navegador:
+
+  - URL: <http://localhost:8080/auth/login>
+
+Nota: la base de datos MySQL se ejecuta en el mismo `docker compose` y la aplicación se conecta internamente; si necesitas acceder al puerto MySQL desde el host, exporta un puerto distinto en `docker-compose.yml`.
 
 **Requisitos:**
 
